@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  discovery-server:
+    image: mplescano/avatar-citizen-server-discoverer
+    container_name: discovery-server
+    hostname: discovery-server
+    networks: 
+      - cluster-network
+    ports:
+     - 8761:8761
+
+  logging-server:
+    image: mplescano/avatar-citizen-server-logging
+    container_name: logging-server
+    hostname: logging-server
+    depends_on:
+      - discovery-server
+    ports:
+     - 9411:9411
+    networks: 
+      - cluster-network
+
+  api-database:
+    image: mplescano/avatar-citizen-server-api-database
+    container_name: api-database
+    hostname: api-database
+    networks: 
+      - cluster-network
+    ports:
+     - 9002:9002
+
+  api-core-service:
+    image: mplescano/avatar-citizen-server-api-core
+    container_name: api-core-service
+    hostname: api-core-service
+    depends_on:
+      - discovery-server
+      - logging-server
+      - api-database
+    networks: 
+      - cluster-network
+
+  api-gateway:
+    image: mplescano/avatar-citizen-server-api-gateway
+    container_name: api-gateway
+    hostname: api-gateway
+    depends_on:
+      - discovery-server
+    networks: 
+      - cluster-network
+
+networks:
+  cluster-network:
+    driver: bridge
