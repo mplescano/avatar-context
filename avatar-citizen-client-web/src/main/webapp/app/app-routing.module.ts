@@ -1,17 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {HomeComponent} from './parts/home/home.component';
-import {LoginComponent} from './parts/login/login.component';
-import {RegisterComponent} from './parts/register/register.component';
-import {SessguardService} from './auth/sessguard.service';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
-    canActivate: [
-      SessguardService
-    ]
+    component: HomeComponent
   },
   // otherwise redirect to home
   {

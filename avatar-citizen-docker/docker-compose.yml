@@ -22,9 +22,9 @@ services:
       - cluster-network
 
   api-database:
-    image: mplescano/avatar-citizen-server-api-database
-    container_name: api-database
-    hostname: api-database
+    image: mplescano/avatar-citizen-server-database
+    container_name: database
+    hostname: database
     networks: 
       - cluster-network
     ports:
@@ -37,14 +37,14 @@ services:
     depends_on:
       - discovery-server
       - logging-server
-      - api-database
+      - database
     networks: 
       - cluster-network
 
-  api-gateway:
-    image: mplescano/avatar-citizen-server-api-gateway
-    container_name: api-gateway
-    hostname: api-gateway
+  gateway:
+    image: mplescano/avatar-citizen-server-gateway
+    container_name: gateway
+    hostname: gateway
     depends_on:
       - discovery-server
     networks: 

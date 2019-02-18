@@ -11,9 +11,9 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 //We need to have discovery client enabled, because gateway-service integrates with 
 //Eureka in order to be able to perform routing to the downstream services.
 @EnableDiscoveryClient
-public class CitizenApiGatewayApplication {
+public class CitizenGatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CitizenApiGatewayApplication.class, args);
+        SpringApplication.run(CitizenGatewayApplication.class, args);
     }
 }

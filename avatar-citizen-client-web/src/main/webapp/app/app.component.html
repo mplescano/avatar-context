@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation" *ngIf="currentUser">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
       <div class="navbar-header">
           <a class="navbar-brand" href="#"><span></span></a>
       </div>
@@ -9,29 +9,13 @@
               <a class="nav-link" routerLink="home" title="home page"><fa-icon [icon]="['fas', 'home']"></fa-icon><span>Home</span></a>
             </li>
 
-            <li class="nav-item dropdown" dropdown *ngxPermissionsOnly="['PERM_VIEW_REMINDER']">
-              <a class="nav-link dropdown-toggle" dropdownToggle>Reminders<span class="caret"></span>
+            <li class="nav-item dropdown" dropdown>
+              <a class="nav-link dropdown-toggle" dropdownToggle>Citizens<span class="caret"></span>
               </a>
               <ul class="dropdown-menu" *dropdownMenu role="menu">
-                    <li role="menuitem"><a class="dropdown-item" routerLink="/reminders"><fa-icon [icon]="['fas', 'th-list']"></fa-icon><span> List of Reminders</span></a></li>
-                    <li role="menuitem" *ngxPermissionsOnly="['PERM_ADD_REMINDER']"><a class="dropdown-item" routerLink="/reminders/form"><fa-icon [icon]="['fas', 'sticky-note']"></fa-icon><span> New reminder</span></a></li>
+                    <li role="menuitem"><a class="dropdown-item" routerLink="/citizens"><fa-icon [icon]="['fas', 'th-list']"></fa-icon><span> List of citizens</span></a></li>
+                    <li role="menuitem"><a class="dropdown-item" routerLink="/citizens/form"><fa-icon [icon]="['fas', 'sticky-note']"></fa-icon><span> New citizen</span></a></li>
               </ul>
-            </li>
-
-            <li class="nav-item dropdown" dropdown *ngxPermissionsOnly="['PERM_VIEW_USER']">
-              <a href="javascript:void(0)" class="nav-link dropdown-toggle" dropdownToggle>Admin<span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu" *dropdownMenu role="menu">
-                    <li role="menuitem"><a class="dropdown-item" routerLink="/users"><fa-icon [icon]="['fas', 'users']"></fa-icon><span>Users</span></a></li>
-                    <li role="menuitem" *ngxPermissionsOnly="['PERM_ADD_USER']"><a class="dropdown-item" routerLink="/users/form"><fa-icon [icon]="['fas', 'user-plus']"></fa-icon><span> New AuthUser</span></a></li>
-              </ul>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" (click)="logout()" title="logout">
-                    <fa-icon [icon]="['fas', 'sign-out-alt']"></fa-icon>
-                    <span>Logout</span>
-                </a>
             </li>
         </ul>
       </div>

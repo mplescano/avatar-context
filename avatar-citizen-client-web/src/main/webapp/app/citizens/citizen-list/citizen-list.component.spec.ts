@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReminderListComponent } from './reminder-list.component';
+import { CitizenListComponent } from './citizen-list.component';
 
-describe('ReminderListComponent', () => {
-  let component: ReminderListComponent;
-  let fixture: ComponentFixture<ReminderListComponent>;
+describe('CitizenListComponent', () => {
+  let component: CitizenListComponent;
+  let fixture: ComponentFixture<CitizenListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReminderListComponent ]
+      declarations: [ CitizenListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReminderListComponent);
+    fixture = TestBed.createComponent(CitizenListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

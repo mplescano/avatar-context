@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ReminderService } from './reminder.service';
+import { CitizenService } from './citizen.service';
 
-describe('ReminderService', () => {
+describe('CitizenService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ReminderService = TestBed.get(ReminderService);
+    const service: CitizenService = TestBed.get(CitizenService);
     expect(service).toBeTruthy();
   });
 });

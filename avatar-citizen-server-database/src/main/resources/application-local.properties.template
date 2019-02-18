@@ -1,2 +1,2 @@
 # Logging
-logging.file=target/reminder-api-db.log
+logging.file=target/citizen-db.log

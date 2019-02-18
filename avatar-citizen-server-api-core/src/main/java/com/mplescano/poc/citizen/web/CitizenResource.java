@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -33,11 +34,11 @@ public class CitizenResource extends AbstractResourceController {
     }
     
     @GetMapping("/citizens")
-    public Page<Citizen> findCitizens(@SortDefault Pageable pageable) {
+    public Page<Citizen> findCitizens(@SortDefault(sort = {"name"}, direction = Direction.ASC) Pageable pageable) {
         return citizenService.findList(pageable);
     }
     
-    @GetMapping("/citizens/{cirizenId}")
+    @GetMapping("/citizens/{citizenId}")
     public Citizen findCitizen(@PathVariable("citizenId") Integer citizenId,
                                  HttpServletRequest request) {
         return citizenService.find(citizenId);

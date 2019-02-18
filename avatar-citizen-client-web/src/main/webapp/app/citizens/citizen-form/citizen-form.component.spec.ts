@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReminderFormComponent } from './reminder-form.component';
+import { CitizenFormComponent } from './citizen-form.component';
 
-describe('ReminderFormComponent', () => {
-  let component: ReminderFormComponent;
-  let fixture: ComponentFixture<ReminderFormComponent>;
+describe('CitizenFormComponent', () => {
+  let component: CitizenFormComponent;
+  let fixture: ComponentFixture<CitizenFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReminderFormComponent ]
+      declarations: [ CitizenFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReminderFormComponent);
+    fixture = TestBed.createComponent(CitizenFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
