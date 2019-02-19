@@ -13,7 +13,7 @@ const routes: Routes = [
     component: CitizenFormComponent
   },
   {
-    path: 'citizens/form/:id',
+    path: 'citizens/form/:citizenId',
     component: CitizenFormComponent
   }
 ];
