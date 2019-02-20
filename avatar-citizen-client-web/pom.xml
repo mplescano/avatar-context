@@ -5,15 +5,17 @@
 
     <parent>
         <groupId>com.mplescano.poc</groupId>
-        <artifactId>everest-reminder</artifactId>
+        <artifactId>avatar-citizen</artifactId>
         <version>1.2.0</version>
     </parent>
-    <artifactId>everest-reminder-client-web</artifactId>
+    <artifactId>avatar-citizen-client-web</artifactId>
     <name>AngularJS Client Web</name>
+    <packaging>pom</packaging>
 
     <properties>
         <node.version>v8.9.4</node.version>
         <npm.version>5.6.0</npm.version>
+        <docker.image.dockerfile.dir>${basedir}/../avatar-citizen-docker/templates/http</docker.image.dockerfile.dir>
     </properties>
 
     <build>
@@ -86,6 +88,115 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>create-webapp</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptor>assembly/webapp.xml</descriptor>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>docker-build</id>
+            <activation>
+                <property>
+                    <name>docker-build</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-resources-2</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <overwrite>true</overwrite>
+                                    <outputDirectory>${project.build.directory}/docker-build/</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${docker.image.dockerfile.dir}</directory>
+                                        </resource>
+                                        <resource>
+                                            <directory>${project.build.directory}</directory>
+                                            <include>*.zip</include>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- hack in order to pass multiples ports in EXPOSE -->
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>replace-snip-text</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <replace token="${EXPOSED_PORT}"
+                                            value="${docker.image.exposed.port}"
+                                            dir="${project.build.directory}/docker-build/">
+                                            <include name="Dockerfile" />
+                                        </replace>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                        <version>${docker.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>install-build</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <repository>${docker.image.prefix}/${project.artifactId}</repository>
+                            <tag>${project.version}</tag>
+                            <tag>latest</tag>
+                            <contextDirectory>${project.build.directory}/docker-build/</contextDirectory>
+                            <googleContainerRegistryEnabled>false</googleContainerRegistryEnabled>
+                            <buildArgs>
+                                <ARTIFACT_NAME>${project.build.finalName}-webapp</ARTIFACT_NAME>
+                                <EXPOSED_PORT>${docker.image.exposed.port}</EXPOSED_PORT>
+                                <TYPE_APP>${docker.type.app}</TYPE_APP>
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
 </project>
