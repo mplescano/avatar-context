@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.ImmutableMap;
-import com.mplescano.poc.citizen.component.constraint.scenariogroups.InsertScenario;
-import com.mplescano.poc.citizen.component.constraint.scenariogroups.UpdateScenario;
 import com.mplescano.poc.citizen.model.dto.ResponseMessage;
 import com.mplescano.poc.citizen.model.entity.main.Citizen;
 import com.mplescano.poc.citizen.service.CitizenService;
@@ -32,32 +30,31 @@ public class CitizenResource extends AbstractResourceController {
     public CitizenResource(CitizenService citizenService) {
         this.citizenService = citizenService;
     }
-    
+
     @GetMapping("/citizens")
-    public Page<Citizen> findCitizens(@SortDefault(sort = {"name"}, direction = Direction.ASC) Pageable pageable) {
+    public Page<Citizen> findCitizens(@SortDefault(sort = { "name" }, direction = Direction.ASC) Pageable pageable) {
         return citizenService.findList(pageable);
     }
-    
+
     @GetMapping("/citizens/{citizenId}")
-    public Citizen findCitizen(@PathVariable("citizenId") Integer citizenId,
-                                 HttpServletRequest request) {
+    public Citizen findCitizen(@PathVariable("citizenId") Integer citizenId, HttpServletRequest request) {
         return citizenService.find(citizenId);
     }
-    
+
     @PostMapping("/citizens")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseMessage insertCitizen(@Validated(InsertScenario.class) @RequestBody Citizen input) {
+    public ResponseMessage insertCitizen(@Validated @RequestBody Citizen input) {
         input = citizenService.save(input);
         return new ResponseMessage(true, "Citizen created", ImmutableMap.of("id", input.getId()));
     }
-    
+
     @PutMapping("/citizens/{citizenId}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseMessage updateReminder(@PathVariable("citizenId") Integer citizenId, 
-                               @Validated(UpdateScenario.class) @RequestBody Citizen input) {
+    public ResponseMessage updateReminder(@PathVariable("citizenId") Integer citizenId,
+                                          @Validated @RequestBody Citizen input) {
         input.setId(citizenId);
         Citizen citizenDb = citizenService.find(citizenId);
-        
+
         citizenDb.setGender(input.getGender());
         citizenDb.setHairColor(input.getHairColor());
         citizenDb.setHeight(input.getHeight());
@@ -65,7 +62,7 @@ public class CitizenResource extends AbstractResourceController {
         citizenDb.setName(input.getName());
         citizenDb.setPlanet(input.getPlanet());
         citizenService.save(citizenDb);
-        
+
         return new ResponseMessage(true, "Citizen modified");
     }
 

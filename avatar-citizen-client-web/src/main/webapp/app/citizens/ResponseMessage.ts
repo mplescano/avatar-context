@@ -4,6 +4,6 @@ export class ResponseMessage {
 
   message: string;
 
-  data: object;
+  data: any;
 
 }

@@ -5,9 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-
-import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.mplescano.poc.citizen.model.entity.BaseEntity;
 
@@ -16,28 +17,32 @@ import com.mplescano.poc.citizen.model.entity.BaseEntity;
 public class Citizen extends BaseEntity {
 
     @Column
-    @NotBlank()
-    @Length()
+    @NotBlank
+    @Size(max = 180)
     private String name;
     
     @Column
-    @NotBlank()
+    @NotNull
+    @Min(1)
     private Integer height;
     
     @Column
-    @NotBlank()
+    @NotNull
+    @Min(1)
     private Integer mass;
     
     @Column
-    @NotBlank()
-    @Length()
+    @NotBlank
+    @Size(max = 100)
     private String hairColor;
     
     @Column
+    @NotNull
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
     
     @Column
+    @Size(max = 100)
     private String planet;
 
     public String getName() {
