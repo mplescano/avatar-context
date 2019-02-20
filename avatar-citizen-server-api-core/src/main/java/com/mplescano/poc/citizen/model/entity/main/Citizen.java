@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.mplescano.poc.citizen.component.constraint.SwapiPlanet;
 import com.mplescano.poc.citizen.model.entity.BaseEntity;
 
 @Entity
@@ -42,7 +43,8 @@ public class Citizen extends BaseEntity {
     private GenderEnum gender;
     
     @Column
-    @Size(max = 100)
+    @Size(min= 2, max = 100)
+    @SwapiPlanet
     private String planet;
 
     public String getName() {
