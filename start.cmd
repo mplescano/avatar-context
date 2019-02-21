@@ -1,7 +1,7 @@
 
 set SPRING_PROFILES_ACTIVE=local
 
-Rem mvn -B -Ddocker-build=true clean package
+Rem mvn -B -Ddocker-build=true clean install
 
 mvn -B -Dspring-build=true clean install
 
