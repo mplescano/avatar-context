@@ -8,7 +8,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.core.NestedRuntimeException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +43,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         this.messageSource = messageSource;
     }
 
-    @ExceptionHandler({ NullPointerException.class, NestedRuntimeException.class })
+    @ExceptionHandler({ Exception.class })
     public ResponseEntity<Object> handleInternalException(Exception ex, WebRequest request) {
     	ResponseErrorMessage message = new ResponseErrorMessage(generateCodeFromException(ex), ErrorType.INTERNAL_ERROR, ex.getMessage());
     	return handleExceptionInternal(ex, message, null, HttpStatus.INTERNAL_SERVER_ERROR, request);

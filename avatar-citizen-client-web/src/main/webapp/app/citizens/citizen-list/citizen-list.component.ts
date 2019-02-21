@@ -17,7 +17,7 @@ export class CitizenListComponent implements OnInit {
 
   private gridApi;
   private gridColumnApi;
-  private columnDefs: object[];
+  columnDefs: object[];
 
   constructor(private router: Router,
               private citizenService: CitizenService,

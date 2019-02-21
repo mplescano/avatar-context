@@ -1,7 +1,9 @@
 
 set SPRING_PROFILES_ACTIVE=local
 
-REM mvn -B -Dspring-build=true clean install
+Rem mvn -B -Ddocker-build=true clean package
+
+mvn -B -Dspring-build=true clean install
 
 start "discoverer-server" java -jar everest-reminder-server-discoverer/target/avatar-citizen-server-discoverer-1.2.0-war.jar
 start "logging-server" java -jar everest-reminder-server-logging/target/everest-reminder-server-logging-1.2.0-war.jar

@@ -21,7 +21,7 @@ services:
     networks: 
       - cluster-network
 
-  api-database:
+  database:
     image: mplescano/avatar-citizen-server-database
     container_name: database
     hostname: database
