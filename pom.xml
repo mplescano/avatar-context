@@ -30,7 +30,7 @@
         <docker.image.prefix>mplescano</docker.image.prefix>
         <docker.image.exposed.port>80</docker.image.exposed.port>
         <docker.image.dockerfile.dir>${basedir}/../avatar-citizen-docker/templates/spring</docker.image.dockerfile.dir>
-        <docker.plugin.version>1.4.4</docker.plugin.version>
+        <docker.plugin.version>1.4.10</docker.plugin.version>
     </properties>
 
     <dependencyManagement>
