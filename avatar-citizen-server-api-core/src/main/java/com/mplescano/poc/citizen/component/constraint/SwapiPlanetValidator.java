@@ -10,24 +10,24 @@ import com.mplescano.poc.citizen.service.SwapiService;
 
 public class SwapiPlanetValidator implements ConstraintValidator<SwapiPlanet, String> {
 
-	private final SwapiService swapiService;
+    private final SwapiService swapiService;
 
-	public SwapiPlanetValidator(SwapiService swapiService) {
-		this.swapiService = swapiService;
-	}
+    public SwapiPlanetValidator(SwapiService swapiService) {
+        this.swapiService = swapiService;
+    }
 
-	@Override
-	public boolean isValid(String value, ConstraintValidatorContext context) {
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
 
-		Map<String, Object> searchedPlanets = swapiService.getPlanets(value);
+        Map<String, Object> searchedPlanets = swapiService.getPlanets(value);
 
-		List<Map<String, Object>> resultPlanets = (List<Map<String, Object>>) searchedPlanets.get("results");
+        List<Map<String, Object>> resultPlanets = (List<Map<String, Object>>) searchedPlanets.get("results");
 
-		if (!(resultPlanets.size() == 0 || resultPlanets.size() > 1)) {
-			return true;
-		}
+        if (!(resultPlanets.size() == 0 || resultPlanets.size() > 1)) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 }
