@@ -7,6 +7,7 @@ import {PageResponse} from '../PageResponse';
 import {Citizen} from '../Citizen';
 import {ResponseMessage} from '../ResponseMessage';
 import {AlertService} from '../../alerts/alert.service';
+import {TwoButtonsCellRendererComponent} from './TwoButtonsCellRenderer.component';
 
 @Component({
   selector: 'app-citizen-list',
@@ -18,18 +19,43 @@ export class CitizenListComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
   columnDefs: object[];
+  context;
+  frameworkComponents;
 
   constructor(private router: Router,
               private citizenService: CitizenService,
-              private alertService: AlertService) { }
-
-  ngOnInit() {
+              private alertService: AlertService) {
     this.columnDefs = [
-      {headerName: 'ID', field: 'id' },
+      {
+        headerName: 'ID',
+        field: 'id',
+        width: 60
+      },
       {headerName: 'Name', field: 'name' },
       {headerName: 'Planet', field: 'planet'},
-      {headerName: 'Gender', field: 'gender'}
+      {headerName: 'Gender', field: 'gender'},
+      {
+        headerName: 'Actions',
+        cellRenderer: 'twoButtonsCellRenderer',
+        cellRendererParams: {
+          button1: {
+            label: 'Edit',
+            method: 'onRowEditCitizen'
+          },
+          button2: {
+            label: 'Delete',
+            method: 'onRowDeleteCitizen'
+          }
+        }
+      }
     ];
+    this.context = { componentParent: this };
+    this.frameworkComponents = {
+      twoButtonsCellRenderer: TwoButtonsCellRendererComponent
+    };
+  }
+
+  ngOnInit() {
   }
 
   onNewCitizen() {
@@ -39,25 +65,33 @@ export class CitizenListComponent implements OnInit {
   onDeleteCitizen() {
     const selectedData: object[] = this.getSelectedRows();
     if (selectedData.length === 1) {
-      // @ts-ignore
-      const citizenId = selectedData[0].id;
-      const result = confirm('Desea borrar el registro de id:' + citizenId + '?');
-      if (result) {
-        this.citizenService.deleteById(citizenId).pipe(first()).subscribe((responseMessage: ResponseMessage) => {
-          this.alertService.sucess(responseMessage.message);
-          this.gridApi.refreshInfiniteCache();
-        });
-      }
+      this.onRowDeleteCitizen(selectedData[0]);
+    }
+  }
+
+  onRowDeleteCitizen(selectedData: object) {
+    // @ts-ignore
+    const citizenId = selectedData.id;
+    const result = confirm('Desea borrar el registro de id:' + citizenId + '?');
+    if (result) {
+      this.citizenService.deleteById(citizenId).pipe(first()).subscribe((responseMessage: ResponseMessage) => {
+        this.alertService.sucess(responseMessage.message);
+        this.gridApi.refreshInfiniteCache();
+      });
     }
   }
 
   onEditCitizen() {
     const selectedData: object[] = this.getSelectedRows();
     if (selectedData.length === 1) {
-      // @ts-ignore
-      const citizenId = selectedData[0].id;
-      this.router.navigate(['/citizens/form/' + citizenId]);
+      this.onRowEditCitizen(selectedData[0]);
     }
+  }
+
+  onRowEditCitizen(selectedData: object) {
+    // @ts-ignore
+    const citizenId = selectedData.id;
+    this.router.navigate(['/citizens/form/' + citizenId]);
   }
 
   getSelectedRows(): object[] {
@@ -86,6 +120,6 @@ export class CitizenListComponent implements OnInit {
     };
 
     eventParams.api.setDatasource(dataSource);
-    eventParams.api.sizeColumnsToFit();
+    // eventParams.api.sizeColumnsToFit();
   }
 }

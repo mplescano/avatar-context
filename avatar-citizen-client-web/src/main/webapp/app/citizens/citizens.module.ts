@@ -7,15 +7,17 @@ import { CitizenFormComponent } from './citizen-form/citizen-form.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AgGridModule } from 'ag-grid-angular';
 import {CitizenService} from './citizen.service';
+import {TwoButtonsCellRendererComponent} from './citizen-list/TwoButtonsCellRenderer.component';
+import {OneButtonCellRendererComponent} from './citizen-list/OneButtonCellRenderer.component';
 
 @NgModule({
-  declarations: [CitizenListComponent, CitizenFormComponent],
+  declarations: [CitizenListComponent, CitizenFormComponent, OneButtonCellRendererComponent, TwoButtonsCellRendererComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     CitizensRoutingModule,
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([OneButtonCellRendererComponent, TwoButtonsCellRendererComponent])
   ],
   providers: [
   ]
