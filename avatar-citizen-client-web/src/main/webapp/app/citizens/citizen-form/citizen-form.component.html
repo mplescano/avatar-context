@@ -13,36 +13,36 @@
 
         <form id="citizen" #citizenForm="ngForm">
           <input type="hidden" name="id" id="id" [(ngModel)]="citizen.id">
-          <div class="form-group">
-            <label class="col-sm-2 custom-control-label" for="name">Name</label>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="name">Name</label>
             <div class="col-sm-10">
               <input type="text" name="name" id="name" [(ngModel)]="citizen.name" class="form-control" required>
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="col-sm-2 custom-control-label" for="height">Height (cmt)</label>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="height">Height (cmt)</label>
             <div class="col-sm-10">
               <input type="number" name="height" id="height" [ngModel]="citizen.height" class="form-control" required>
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="col-sm-2 custom-control-label" for="mass">Mass (klg)</label>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="mass">Mass (klg)</label>
             <div class="col-sm-10">
               <input type="number" name="mass" id="mass" [ngModel]="citizen.mass" class="form-control" required>
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="col-sm-2 custom-control-label" for="hairColor">Hair Color</label>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="hairColor">Hair Color</label>
             <div class="col-sm-10">
               <input type="text" name="hairColor" id="hairColor" [ngModel]="citizen.hairColor" class="form-control" required>
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="col-sm-2 custom-control-label" for="gender">Gender</label>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="gender">Gender</label>
             <div class="col-sm-10">
               <select required name="gender" id="gender" [ngModel]="citizen.gender" class="form-control">
                 <option value="Male">Male</option>
@@ -51,8 +51,8 @@
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="col-sm-2 custom-control-label" for="planet">Planet</label>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="planet">Planet</label>
             <div class="col-sm-10">
               <input type="text" name="planet" id="planet" [ngModel]="citizen.planet" class="form-control" required>
             </div>

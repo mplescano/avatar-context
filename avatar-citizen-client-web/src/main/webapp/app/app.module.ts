@@ -8,7 +8,7 @@ import {PartsModule} from './parts/parts.module';
 import {HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {BsDropdownModule, CollapseModule} from 'ngx-bootstrap';
+import {AlertModule, BsDropdownModule, CollapseModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {faHome, faStickyNote, faThList} from '@fortawesome/free-solid-svg-icons';
@@ -31,7 +31,8 @@ import { AgGridModule } from 'ag-grid-angular';
     AppRoutingModule,
     CollapseModule.forRoot(),
     BsDropdownModule.forRoot(),
-    FontAwesomeModule
+    FontAwesomeModule,
+    AlertModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

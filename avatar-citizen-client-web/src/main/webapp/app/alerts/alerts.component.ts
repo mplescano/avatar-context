@@ -10,17 +10,24 @@ import {AlertService} from './alert.service';
 export class AlertsComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
-  message: any;
+  messages: any[];
 
   constructor(private alertService: AlertService) { }
 
   ngOnInit() {
+    this.messages = [];
     this.subscription = this.alertService.getMessage().subscribe(message => {
-      this.message = message;
+      if (message) {
+        this.messages.push(message);
+      }
     });
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  onClosed(dismissedMessage: any): void {
+    this.messages = this.messages.filter(message => message !== dismissedMessage);
   }
 }

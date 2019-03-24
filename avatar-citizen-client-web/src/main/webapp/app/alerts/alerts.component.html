@@ -1,4 +1,6 @@
-<div *ngIf="message" [ngClass]="{'alert': message, 'alert-success': message.type == 'success', 'alert-danger': message.type === 'error'}">
-  <div [innerHTML]="message.text">
-  </div>
+<div *ngFor="let message of messages">
+  <alert [type]="message.type" [dismissible]="true" (onClosed)="onClosed(message)">
+    <span [innerHTML]="message.text">
+    </span >
+  </alert>
 </div>
