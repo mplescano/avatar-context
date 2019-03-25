@@ -24,7 +24,9 @@ export class CitizenListComponent implements OnInit {
 
   constructor(private router: Router,
               private citizenService: CitizenService,
-              private alertService: AlertService) {
+              private alertService: AlertService) { }
+
+  ngOnInit() {
     this.columnDefs = [
       {
         headerName: 'ID',
@@ -40,11 +42,11 @@ export class CitizenListComponent implements OnInit {
         cellRendererParams: {
           button1: {
             label: 'Edit',
-            method: 'onRowEditCitizen'
+            method: 'onEdit'
           },
           button2: {
             label: 'Delete',
-            method: 'onRowDeleteCitizen'
+            method: 'onDelete'
           }
         }
       }
@@ -53,9 +55,6 @@ export class CitizenListComponent implements OnInit {
     this.frameworkComponents = {
       twoButtonsCellRenderer: TwoButtonsCellRendererComponent
     };
-  }
-
-  ngOnInit() {
   }
 
   onNewCitizen() {

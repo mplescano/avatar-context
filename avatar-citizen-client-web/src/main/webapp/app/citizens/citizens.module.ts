@@ -15,7 +15,6 @@ import {OneButtonCellRendererComponent} from './citizen-list/OneButtonCellRender
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     CitizensRoutingModule,
     AgGridModule.withComponents([OneButtonCellRendererComponent, TwoButtonsCellRendererComponent])
   ],

@@ -37,6 +37,22 @@ export class AlertService {
     this.subject.next({ type: 'danger', text: message});
   }
 
+  /*errorHttpResponse(httpErrorResponse: HttpErrorResponse, keepAfterNavigationChange = false) {
+    const responseErrorMessage: ResponseErrorMessage = httpErrorResponse.error;
+    let message = '[' + responseErrorMessage.code + '] ' + responseErrorMessage.message + '<br>';
+    if (responseErrorMessage.data != null) {
+      message = message + '<ul>';
+      const arrErrorDetails: ErrorDetail[] = responseErrorMessage.data;
+      arrErrorDetails.forEach((errorDetail: ErrorDetail, index) => {
+        message = message + '<li>';
+        message = message + errorDetail.code + ' ' + errorDetail.message;
+        message = message + '</li>';
+      });
+    }
+    message = message + '</ul>';
+    this.error(message, keepAfterNavigationChange);
+  }*/
+
   getMessage(): Observable<any> {
     return this.subject.asObservable();
   }
