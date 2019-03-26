@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {NavigationStart, Router} from '@angular/router';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ResponseErrorMessage} from '../ResponseErrorMessage';
+import {ErrorDetail} from '../ErrorDetail';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +40,7 @@ export class AlertService {
     this.subject.next({ type: 'danger', text: message});
   }
 
-  /*errorHttpResponse(httpErrorResponse: HttpErrorResponse, keepAfterNavigationChange = false) {
+  errorHttpResponse(httpErrorResponse: HttpErrorResponse, keepAfterNavigationChange = false) {
     const responseErrorMessage: ResponseErrorMessage = httpErrorResponse.error;
     let message = '[' + responseErrorMessage.code + '] ' + responseErrorMessage.message + '<br>';
     if (responseErrorMessage.data != null) {
@@ -51,7 +54,7 @@ export class AlertService {
     }
     message = message + '</ul>';
     this.error(message, keepAfterNavigationChange);
-  }*/
+  }
 
   getMessage(): Observable<any> {
     return this.subject.asObservable();

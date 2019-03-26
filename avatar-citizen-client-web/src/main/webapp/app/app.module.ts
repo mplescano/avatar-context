@@ -3,36 +3,33 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AlertsComponent } from './alerts/alerts.component';
 import {PartsModule} from './parts/parts.module';
 import {HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AlertModule, BsDropdownModule, CollapseModule} from 'ngx-bootstrap';
+import { BsDropdownModule, CollapseModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import {faHome, faStickyNote, faThList} from '@fortawesome/free-solid-svg-icons';
+import {faHome, faStickyNote, faThList, faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {CitizensModule} from './citizens/citizens.module';
-import { AgGridModule } from 'ag-grid-angular';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    AlertsComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
+    SharedModule,
     PartsModule,
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    AgGridModule.withComponents([]),
     CitizensModule,
     AppRoutingModule,
     CollapseModule.forRoot(),
     BsDropdownModule.forRoot(),
-    FontAwesomeModule,
-    AlertModule.forRoot()
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -42,5 +39,6 @@ export class AppModule {
     library.add(faHome);
     library.add(faThList);
     library.add(faStickyNote);
+    library.add(faSpinner);
   }
 }

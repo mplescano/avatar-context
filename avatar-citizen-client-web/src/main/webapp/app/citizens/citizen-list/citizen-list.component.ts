@@ -3,11 +3,11 @@ import {Router} from '@angular/router';
 import {CitizenService} from '../citizen.service';
 import {IDatasource} from 'ag-grid-community';
 import {first} from 'rxjs/operators';
-import {PageResponse} from '../PageResponse';
+import {PageResponse} from '../../shared/PageResponse';
 import {Citizen} from '../Citizen';
-import {ResponseMessage} from '../ResponseMessage';
-import {AlertService} from '../../alerts/alert.service';
-import {TwoButtonsCellRendererComponent} from './TwoButtonsCellRenderer.component';
+import {ResponseMessage} from '../../shared/ResponseMessage';
+import {AlertService} from '../../shared/alerts/alert.service';
+import {TwoButtonsCellRendererComponent} from '../../shared/grids/TwoButtonsCellRenderer.component';
 
 @Component({
   selector: 'app-citizen-list',
@@ -21,6 +21,8 @@ export class CitizenListComponent implements OnInit {
   columnDefs: object[];
   context;
   frameworkComponents;
+  overlayLoadingTemplate;
+  overlayNoRowsTemplate;
 
   constructor(private router: Router,
               private citizenService: CitizenService,
@@ -42,11 +44,11 @@ export class CitizenListComponent implements OnInit {
         cellRendererParams: {
           button1: {
             label: 'Edit',
-            method: 'onEdit'
+            method: 'onRowEditCitizen'
           },
           button2: {
             label: 'Delete',
-            method: 'onDelete'
+            method: 'onRowDeleteCitizen'
           }
         }
       }
@@ -55,6 +57,10 @@ export class CitizenListComponent implements OnInit {
     this.frameworkComponents = {
       twoButtonsCellRenderer: TwoButtonsCellRendererComponent
     };
+    this.overlayLoadingTemplate =
+        '<span class="ag-overlay-loading-center">Cargando...</span>';
+    this.overlayNoRowsTemplate = '<span style=\"padding: 10px; border: 2px solid #444; background: lightgoldenrodyellow;\">' +
+        'No hay datos</span>';
   }
 
   onNewCitizen() {
@@ -96,7 +102,7 @@ export class CitizenListComponent implements OnInit {
   getSelectedRows(): object[] {
     const selectedNodes = this.gridApi.getSelectedNodes();
     const selectedData = selectedNodes.map( node => node.data );
-    console.log('selectedData', selectedData);
+    // console.log('selectedData', selectedData);
     // const selectedDataStringPresentation = selectedData.map( node => node.make + ' ' + node.model).join(', ');
     // alert(`Selected nodes: ${selectedDataStringPresentation}`);
     return selectedData;
@@ -110,9 +116,15 @@ export class CitizenListComponent implements OnInit {
     const dataSource: IDatasource =  {
       getRows: function (params2) {
         // console.log('asking for ' + params2.startRow + ' to ' + params2.endRow);
+        _superThis.gridApi.showLoadingOverlay();
         _superThis.citizenService.getAll((params2.endRow / eventParams.api.paginationGetPageSize()) - 1,
           eventParams.api.paginationGetPageSize(), []).pipe(first()).subscribe((citizens: PageResponse<Citizen[]>) => {
             params2.successCallback(citizens.content, citizens.totalElements);
+            if (citizens.totalElements === 0) {
+              _superThis.gridApi.showNoRowsOverlay();
+            } else {
+              _superThis.gridApi.hideOverlay();
+            }
           }
         );
       }

@@ -3,8 +3,8 @@ import {Citizen} from './Citizen';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
-import {PageResponse} from './PageResponse';
-import {ResponseMessage} from './ResponseMessage';
+import {PageResponse} from '../shared/PageResponse';
+import {ResponseMessage} from '../shared/ResponseMessage';
 
 @Injectable({
   providedIn: 'root'

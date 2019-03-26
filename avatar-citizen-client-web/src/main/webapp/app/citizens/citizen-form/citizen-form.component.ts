@@ -3,10 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CitizenService} from '../citizen.service';
 import {Citizen} from '../Citizen';
 import {first} from 'rxjs/operators';
-import {ResponseMessage} from '../ResponseMessage';
-import {AlertService} from '../../alerts/alert.service';
-import {ResponseErrorMessage} from '../ResponseErrorMessage';
-import {ErrorDetail} from '../ErrorDetail';
+import {ResponseMessage} from '../../shared/ResponseMessage';
+import {AlertService} from '../../shared/alerts/alert.service';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
@@ -47,34 +45,17 @@ export class CitizenFormComponent implements OnInit {
         this.alertService.sucess(responseMessage.message, true);
         this.router.navigate(['/citizens']);
       }, (httpErrorResponse: HttpErrorResponse) => {
-        this.processError(httpErrorResponse);
+        this.alertService.errorHttpResponse(httpErrorResponse);
       });
     } else {
       this.citizenService.update(citizen).subscribe((responseMessage: ResponseMessage) => {
         this.alertService.sucess(responseMessage.message, true);
         this.router.navigate(['/citizens']);
       }, (httpErrorResponse: HttpErrorResponse) => {
-        this.processError(httpErrorResponse);
+          this.alertService.errorHttpResponse(httpErrorResponse);
       });
     }
   }
-
-  private processError(httpErrorResponse: HttpErrorResponse) {
-    const responseErrorMessage: ResponseErrorMessage = httpErrorResponse.error;
-    let message = '[' + responseErrorMessage.code + '] ' + responseErrorMessage.message + '<br>';
-    if (responseErrorMessage.data != null) {
-      message = message + '<ul>';
-      const arrErrorDetails: ErrorDetail[] = responseErrorMessage.data;
-      arrErrorDetails.forEach((errorDetail: ErrorDetail, index) => {
-        message = message + '<li>';
-        message = message + errorDetail.code + ' ' + errorDetail.message;
-        message = message + '</li>';
-      });
-    }
-    message = message + '</ul>';
-    this.alertService.error(message);
-  }
-
   onCancel() {
     this.router.navigate(['/citizens']);
   }
