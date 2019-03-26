@@ -8,6 +8,9 @@ import {Citizen} from '../Citizen';
 import {ResponseMessage} from '../../shared/ResponseMessage';
 import {AlertService} from '../../shared/alerts/alert.service';
 import {TwoButtonsCellRendererComponent} from '../../shared/grids/TwoButtonsCellRenderer.component';
+import {LoadingOverlayRendererComponent} from '../../shared/grids/LoadingOverlayRenderer.component';
+import {NoRowsOverlayRendererComponent} from '../../shared/grids/NoRowsOverlayRenderer.component';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-citizen-list',
@@ -55,12 +58,12 @@ export class CitizenListComponent implements OnInit {
     ];
     this.context = { componentParent: this };
     this.frameworkComponents = {
-      twoButtonsCellRenderer: TwoButtonsCellRendererComponent
+      twoButtonsCellRenderer: TwoButtonsCellRendererComponent,
+      overlayLoadingTemplate: LoadingOverlayRendererComponent,
+      overlayNoRowsTemplate: NoRowsOverlayRendererComponent
     };
-    this.overlayLoadingTemplate =
-        '<span class="ag-overlay-loading-center">Cargando...</span>';
-    this.overlayNoRowsTemplate = '<span style=\"padding: 10px; border: 2px solid #444; background: lightgoldenrodyellow;\">' +
-        'No hay datos</span>';
+    this.overlayLoadingTemplate = 'overlayLoadingTemplate';
+    this.overlayNoRowsTemplate = 'overlayNoRowsTemplate';
   }
 
   onNewCitizen() {
@@ -125,7 +128,10 @@ export class CitizenListComponent implements OnInit {
             } else {
               _superThis.gridApi.hideOverlay();
             }
-          }
+          }, (httpErrorResponse: HttpErrorResponse) => {
+            _superThis.gridApi.hideOverlay();
+            this.alertService.errorHttpResponse(httpErrorResponse);
+        }
         );
       }
     };

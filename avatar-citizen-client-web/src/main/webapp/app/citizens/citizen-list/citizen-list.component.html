@@ -5,7 +5,6 @@
     <div class="row">
       <div class="col-sm-4">
         <button (click)="onNewCitizen()" class="btn btn-primary" type="button" >New Citizen</button>&nbsp;
-        <button (click)="onEditCitizen()" class="btn btn-secondary" type="button" >Edit</button>&nbsp;
         <button (click)="onDeleteCitizen()" class="btn btn-secondary" type="button" >Delete</button>
       </div>
     </div>
@@ -22,8 +21,8 @@
           [cacheBlockSize]="10"
           [context]="context"
           [frameworkComponents]="frameworkComponents"
-          [overlayLoadingTemplate]="overlayLoadingTemplate"
-          [overlayNoRowsTemplate]="overlayNoRowsTemplate"
+          [loadingOverlayComponent]="overlayLoadingTemplate"
+          [noRowsOverlayComponent]="overlayNoRowsTemplate"
           (gridReady)="onGridReady($event)"
         >
         </ag-grid-angular>

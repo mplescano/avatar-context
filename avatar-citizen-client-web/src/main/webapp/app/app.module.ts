@@ -11,6 +11,7 @@ import { BsDropdownModule, CollapseModule} from 'ngx-bootstrap';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {faHome, faStickyNote, faThList, faSpinner} from '@fortawesome/free-solid-svg-icons';
+import {faFrown} from '@fortawesome/free-regular-svg-icons';
 import {CitizensModule} from './citizens/citizens.module';
 import {SharedModule} from './shared/shared.module';
 
@@ -40,5 +41,6 @@ export class AppModule {
     library.add(faThList);
     library.add(faStickyNote);
     library.add(faSpinner);
+    library.add(faFrown);
   }
 }
