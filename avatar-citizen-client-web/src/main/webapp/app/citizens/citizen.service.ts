@@ -5,11 +5,12 @@ import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {PageResponse} from '../shared/PageResponse';
 import {ResponseMessage} from '../shared/ResponseMessage';
+import {IService} from '../shared/iService';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CitizenService {
+export class CitizenService implements IService<Citizen> {
 
   constructor(private http: HttpClient) { }
 
@@ -38,4 +39,8 @@ export class CitizenService {
     return this.http.delete<ResponseMessage>(`${environment.apiUrl}/core/citizens/${citizenId}`);
   }
 
+  deleteByIds(citizenIds: number[]): Observable<ResponseMessage> {
+    const strCitizenIds = citizenIds.join(',');
+    return this.http.delete<ResponseMessage>(`${environment.apiUrl}/core/citizens/${strCitizenIds}`);
+  }
 }

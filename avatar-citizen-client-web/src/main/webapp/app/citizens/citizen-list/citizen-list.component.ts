@@ -11,6 +11,8 @@ import {TwoButtonsCellRendererComponent} from '../../shared/grids/TwoButtonsCell
 import {LoadingOverlayRendererComponent} from '../../shared/grids/LoadingOverlayRenderer.component';
 import {NoRowsOverlayRendererComponent} from '../../shared/grids/NoRowsOverlayRenderer.component';
 import {HttpErrorResponse} from '@angular/common/http';
+import {GridApi} from 'ag-grid-community';
+import {GridServiceDatasource} from '../../shared/grids/GridServiceDatasource';
 
 @Component({
   selector: 'app-citizen-list',
@@ -19,7 +21,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class CitizenListComponent implements OnInit {
 
-  private gridApi;
+  private gridApi: GridApi;
   private gridColumnApi;
   columnDefs: object[];
   context;
@@ -33,6 +35,11 @@ export class CitizenListComponent implements OnInit {
 
   ngOnInit() {
     this.columnDefs = [
+      {
+          headerName: '',
+          width: 60,
+          checkboxSelection: true
+      },
       {
         headerName: 'ID',
         field: 'id',
@@ -72,8 +79,19 @@ export class CitizenListComponent implements OnInit {
 
   onDeleteCitizen() {
     const selectedData: object[] = this.getSelectedRows();
-    if (selectedData.length === 1) {
-      this.onRowDeleteCitizen(selectedData[0]);
+
+    if (selectedData.length > 0) {
+      const citizenIds: number[] = selectedData.map((objItem: Citizen) => objItem.id);
+      const result = confirm('Desea borrar estos ' + selectedData.length + ' registros de ids:' + citizenIds.join(',') + '?');
+      if (result) {
+          this.citizenService.deleteByIds(citizenIds).pipe(first()).subscribe((responseMessage: ResponseMessage) => {
+              this.alertService.sucess(responseMessage.message);
+              this.gridApi.refreshInfiniteCache();
+              this.gridApi.deselectAll();
+          }, (httpErrorResponse: HttpErrorResponse) => {
+              this.alertService.errorHttpResponse(httpErrorResponse);
+          });
+      }
     }
   }
 
@@ -85,6 +103,9 @@ export class CitizenListComponent implements OnInit {
       this.citizenService.deleteById(citizenId).pipe(first()).subscribe((responseMessage: ResponseMessage) => {
         this.alertService.sucess(responseMessage.message);
         this.gridApi.refreshInfiniteCache();
+          this.gridApi.deselectAll();
+      }, (httpErrorResponse: HttpErrorResponse) => {
+          this.alertService.errorHttpResponse(httpErrorResponse);
       });
     }
   }
@@ -115,28 +136,8 @@ export class CitizenListComponent implements OnInit {
     this.gridApi = eventParams.api;
     this.gridColumnApi = eventParams.columnApi;
 
-    const _superThis = this;
-    const dataSource: IDatasource =  {
-      getRows: function (params2) {
-        // console.log('asking for ' + params2.startRow + ' to ' + params2.endRow);
-        _superThis.gridApi.showLoadingOverlay();
-        _superThis.citizenService.getAll((params2.endRow / eventParams.api.paginationGetPageSize()) - 1,
-          eventParams.api.paginationGetPageSize(), []).pipe(first()).subscribe((citizens: PageResponse<Citizen[]>) => {
-            params2.successCallback(citizens.content, citizens.totalElements);
-            if (citizens.totalElements === 0) {
-              _superThis.gridApi.showNoRowsOverlay();
-            } else {
-              _superThis.gridApi.hideOverlay();
-            }
-          }, (httpErrorResponse: HttpErrorResponse) => {
-            _superThis.gridApi.hideOverlay();
-            this.alertService.errorHttpResponse(httpErrorResponse);
-        }
-        );
-      }
-    };
-
-    eventParams.api.setDatasource(dataSource);
+    const dataSource = new GridServiceDatasource(this.citizenService, this.gridApi, this.alertService);
+    this.gridApi.setDatasource(dataSource);
     // eventParams.api.sizeColumnsToFit();
   }
 }

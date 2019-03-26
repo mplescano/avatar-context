@@ -63,13 +63,13 @@ public class CitizenResource extends AbstractResourceController {
         citizenDb.setPlanet(input.getPlanet());
         citizenService.save(citizenDb);
 
-        return new ResponseMessage(true, "Citizen modified");
+        return new ResponseMessage(true, "Citizen successfuly modified");
     }
 
-    @DeleteMapping("/citizens/{citizenId}")
+    @DeleteMapping("/citizens/{citizenIds}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseMessage deleteReminder(@PathVariable("citizenId") int citizenId) {
-        citizenService.delete(citizenId);
-        return new ResponseMessage(true, "Successfuly deleted " + 1 + " item.");
+    public ResponseMessage deleteReminder(@PathVariable("citizenIds") int[] citizenIds) {
+    	citizenService.delete(citizenIds[0]);
+        return new ResponseMessage(true, "Successfuly deleted the item of id " + citizenIds[0] + ".");    		
     }
 }

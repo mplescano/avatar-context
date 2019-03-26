@@ -41,19 +41,26 @@ export class AlertService {
   }
 
   errorHttpResponse(httpErrorResponse: HttpErrorResponse, keepAfterNavigationChange = false) {
-    const responseErrorMessage: ResponseErrorMessage = httpErrorResponse.error;
-    let message = '[' + responseErrorMessage.code + '] ' + responseErrorMessage.message + '<br>';
-    if (responseErrorMessage.data != null) {
-      message = message + '<ul>';
-      const arrErrorDetails: ErrorDetail[] = responseErrorMessage.data;
-      arrErrorDetails.forEach((errorDetail: ErrorDetail, index) => {
-        message = message + '<li>';
-        message = message + errorDetail.code + ' ' + errorDetail.message;
-        message = message + '</li>';
-      });
+    // console.log('httpErrorResponse', httpErrorResponse);
+    // console.log('responseErrorMessage', httpErrorResponse.error);
+    if (httpErrorResponse.error !== null && httpErrorResponse.error.code !== undefined && httpErrorResponse.error.message !== undefined) {
+        const responseErrorMessage: ResponseErrorMessage = httpErrorResponse.error;
+        let message = '[' + responseErrorMessage.code + '] ' + responseErrorMessage.message + '<br>';
+        if (responseErrorMessage.data != null) {
+            message = message + '<ul>';
+            const arrErrorDetails: ErrorDetail[] = responseErrorMessage.data;
+            arrErrorDetails.forEach((errorDetail: ErrorDetail, index) => {
+                message = message + '<li>';
+                message = message + errorDetail.code + ' ' + errorDetail.message;
+                message = message + '</li>';
+            });
+        }
+        message = message + '</ul>';
+        this.error(message, keepAfterNavigationChange);
+    } else {
+        const message = '[' + httpErrorResponse.name + '] ' + httpErrorResponse.message;
+        this.error(message, keepAfterNavigationChange);
     }
-    message = message + '</ul>';
-    this.error(message, keepAfterNavigationChange);
   }
 
   getMessage(): Observable<any> {
