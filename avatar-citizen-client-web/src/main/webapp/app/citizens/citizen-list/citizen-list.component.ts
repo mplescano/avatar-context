@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {CitizenService} from '../citizen.service';
-import {IDatasource} from 'ag-grid-community';
 import {first} from 'rxjs/operators';
-import {PageResponse} from '../../shared/PageResponse';
 import {Citizen} from '../Citizen';
 import {ResponseMessage} from '../../shared/ResponseMessage';
 import {AlertService} from '../../shared/alerts/alert.service';
@@ -13,6 +11,7 @@ import {NoRowsOverlayRendererComponent} from '../../shared/grids/NoRowsOverlayRe
 import {HttpErrorResponse} from '@angular/common/http';
 import {GridApi} from 'ag-grid-community';
 import {GridServiceDatasource} from '../../shared/grids/GridServiceDatasource';
+import {NgxUiLoaderService} from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-citizen-list',
@@ -31,7 +30,8 @@ export class CitizenListComponent implements OnInit {
 
   constructor(private router: Router,
               private citizenService: CitizenService,
-              private alertService: AlertService) { }
+              private alertService: AlertService,
+              private ngxLoader: NgxUiLoaderService) { }
 
   ngOnInit() {
     this.columnDefs = [
@@ -84,13 +84,16 @@ export class CitizenListComponent implements OnInit {
       const citizenIds: number[] = selectedData.map((objItem: Citizen) => objItem.id);
       const result = confirm('Desea borrar estos ' + selectedData.length + ' registros de ids:' + citizenIds.join(',') + '?');
       if (result) {
-          this.citizenService.deleteByIds(citizenIds).pipe(first()).subscribe((responseMessage: ResponseMessage) => {
-              this.alertService.sucess(responseMessage.message);
-              this.gridApi.refreshInfiniteCache();
-              this.gridApi.deselectAll();
-          }, (httpErrorResponse: HttpErrorResponse) => {
-              this.alertService.errorHttpResponse(httpErrorResponse);
-          });
+        this.ngxLoader.startLoader('loader-outlet');
+        this.citizenService.deleteByIds(citizenIds).pipe(first()).subscribe((responseMessage: ResponseMessage) => {
+            this.alertService.sucess(responseMessage.message);
+            this.gridApi.refreshInfiniteCache();
+            this.gridApi.deselectAll();
+            this.ngxLoader.stopLoader('loader-outlet');
+        }, (httpErrorResponse: HttpErrorResponse) => {
+            this.alertService.errorHttpResponse(httpErrorResponse);
+            this.ngxLoader.stopLoader('loader-outlet');
+        });
       }
     }
   }
@@ -103,17 +106,10 @@ export class CitizenListComponent implements OnInit {
       this.citizenService.deleteById(citizenId).pipe(first()).subscribe((responseMessage: ResponseMessage) => {
         this.alertService.sucess(responseMessage.message);
         this.gridApi.refreshInfiniteCache();
-          this.gridApi.deselectAll();
+        this.gridApi.deselectAll();
       }, (httpErrorResponse: HttpErrorResponse) => {
           this.alertService.errorHttpResponse(httpErrorResponse);
       });
-    }
-  }
-
-  onEditCitizen() {
-    const selectedData: object[] = this.getSelectedRows();
-    if (selectedData.length === 1) {
-      this.onRowEditCitizen(selectedData[0]);
     }
   }
 

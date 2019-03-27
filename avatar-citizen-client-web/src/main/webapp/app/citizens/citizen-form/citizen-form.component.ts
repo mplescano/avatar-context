@@ -6,6 +6,7 @@ import {first} from 'rxjs/operators';
 import {ResponseMessage} from '../../shared/ResponseMessage';
 import {AlertService} from '../../shared/alerts/alert.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {NgxUiLoaderService} from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-citizen-form',
@@ -21,14 +22,20 @@ export class CitizenFormComponent implements OnInit {
   constructor(private router: Router,
               private citizenService: CitizenService,
               private route: ActivatedRoute,
-              private alertService: AlertService) { }
+              private alertService: AlertService,
+              private ngxLoader: NgxUiLoaderService) { }
 
   ngOnInit() {
     const citizenId: string = this.route.snapshot.paramMap.get('citizenId');
     this.citizen = new Citizen();
     if (citizenId !== null) {
+      this.ngxLoader.startLoader('loader-outlet');
       this.citizenService.getById(Number(citizenId)).pipe(first()).subscribe((citizen: Citizen) => {
         this.citizen = citizen;
+          this.ngxLoader.stopLoader('loader-outlet');
+      }, (httpErrorResponse: HttpErrorResponse) => {
+          this.ngxLoader.stopLoader('loader-outlet');
+          this.alertService.errorHttpResponse(httpErrorResponse);
       });
       this.titleButton = 'Update';
       this.titleForm = 'Editing Citizen ' + citizenId;
@@ -48,11 +55,14 @@ export class CitizenFormComponent implements OnInit {
         this.alertService.errorHttpResponse(httpErrorResponse);
       });
     } else {
+      this.ngxLoader.startLoader('loader-outlet');
       this.citizenService.update(citizen).subscribe((responseMessage: ResponseMessage) => {
+        this.ngxLoader.stopLoader('loader-outlet');
         this.alertService.sucess(responseMessage.message, true);
         this.router.navigate(['/citizens']);
       }, (httpErrorResponse: HttpErrorResponse) => {
           this.alertService.errorHttpResponse(httpErrorResponse);
+          this.ngxLoader.stopLoader('loader-outlet');
       });
     }
   }

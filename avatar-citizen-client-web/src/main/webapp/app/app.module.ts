@@ -14,6 +14,7 @@ import {faHome, faStickyNote, faThList, faSpinner} from '@fortawesome/free-solid
 import {faFrown} from '@fortawesome/free-regular-svg-icons';
 import {CitizensModule} from './citizens/citizens.module';
 import {SharedModule} from './shared/shared.module';
+import {NgxUiLoaderModule} from 'ngx-ui-loader';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {SharedModule} from './shared/shared.module';
   ],
   imports: [
     BrowserModule,
+    NgxUiLoaderModule,
     SharedModule,
     PartsModule,
     HttpClientModule,

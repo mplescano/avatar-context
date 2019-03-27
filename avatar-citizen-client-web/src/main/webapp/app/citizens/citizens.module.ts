@@ -11,11 +11,13 @@ import {OneButtonCellRendererComponent} from '../shared/grids/OneButtonCellRende
 import {SharedModule} from '../shared/shared.module';
 import {LoadingOverlayRendererComponent} from '../shared/grids/LoadingOverlayRenderer.component';
 import {NoRowsOverlayRendererComponent} from '../shared/grids/NoRowsOverlayRenderer.component';
+import {NgxUiLoaderModule} from 'ngx-ui-loader';
 
 @NgModule({
   declarations: [CitizenListComponent, CitizenFormComponent],
   imports: [
     CommonModule,
+    NgxUiLoaderModule,
     SharedModule,
     FormsModule,
     CitizensRoutingModule,

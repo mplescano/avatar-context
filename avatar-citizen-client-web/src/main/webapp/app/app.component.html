@@ -29,8 +29,9 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12">
+    <div style="position: relative" class="col-sm-12">
       <router-outlet></router-outlet>
+      <ngx-ui-loader [loaderId]="'loader-outlet'"></ngx-ui-loader>
     </div>
   </div>
 </div>
@@ -44,3 +45,5 @@
         </div>
     </div>
 </div>
+<!-- master loader and its loaderId is "master" by default -->
+<ngx-ui-loader></ngx-ui-loader>
