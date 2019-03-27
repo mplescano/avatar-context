@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {AlertService} from './alert.service';
+import {NavigationStart, Router} from '@angular/router';
 
 @Component({
   selector: 'app-alerts',
@@ -12,13 +13,24 @@ export class AlertsComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   messages: any[];
 
-  constructor(private alertService: AlertService) { }
+  constructor(private alertService: AlertService, private router: Router) { }
 
   ngOnInit() {
     this.messages = [];
     this.subscription = this.alertService.getMessage().subscribe(message => {
       if (message) {
         this.messages.push(message);
+      }
+    });
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.messages = this.messages.filter(message => {
+          const keepAfterNavigationChange = message.keepAfterNavigationChange;
+          if (keepAfterNavigationChange) {
+            message.keepAfterNavigationChange = false;
+          }
+          return keepAfterNavigationChange;
+        });
       }
     });
   }

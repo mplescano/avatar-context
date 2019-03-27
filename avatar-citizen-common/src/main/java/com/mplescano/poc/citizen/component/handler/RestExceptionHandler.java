@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -109,4 +110,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		return ex.getClass().getSimpleName().replaceAll("[^A-Z]", "");
 	}
 
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex,
+                                                        HttpHeaders headers,
+                                                        HttpStatus status,
+                                                        WebRequest request) {
+        ResponseErrorMessage message = new ResponseErrorMessage(generateCodeFromException(ex), ErrorType.DATA_ERROR,
+                ex.getMessage());
+        return handleExceptionInternal(ex, message, headers, status, request);
+    }
 }
