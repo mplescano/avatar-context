@@ -43,10 +43,19 @@ export class CitizenListComponent implements OnInit {
       {
         headerName: 'ID',
         field: 'id',
+        sortable: true,
         width: 60
       },
-      {headerName: 'Name', field: 'name' },
-      {headerName: 'Planet', field: 'planet'},
+      {
+        headerName: 'Name',
+        field: 'name',
+        sortable: true
+      },
+      {
+        headerName: 'Planet',
+        field: 'planet',
+        sortable: true
+      },
       {headerName: 'Gender', field: 'gender'},
       {
         headerName: 'Actions',

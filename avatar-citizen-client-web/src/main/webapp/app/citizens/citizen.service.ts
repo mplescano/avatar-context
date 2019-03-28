@@ -14,7 +14,8 @@ export class CitizenService implements IService<Citizen> {
 
   constructor(private http: HttpClient) { }
 
-  getAll(pageNumber: number, pageSize: number, arrSort: string[]/*["name,direction",]*/): Observable<PageResponse<Citizen[]>> {
+  getAll(bodyParams: object, pageNumber: number, pageSize: number, arrSort: string[]/*["name,direction",]*/):
+    Observable<PageResponse<Citizen[]>> {
     const params = new HttpParams({ fromObject: {
       'page': pageNumber.toString(),
       'size': pageSize.toString(),

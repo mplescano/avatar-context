@@ -66,8 +66,8 @@ export class CitizenFormComponent implements OnInit {
       });
     }
   }
+
   onCancel() {
     this.router.navigate(['/citizens']);
   }
-
 }
