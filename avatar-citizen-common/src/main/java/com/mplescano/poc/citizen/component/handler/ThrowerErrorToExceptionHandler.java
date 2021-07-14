@@ -5,9 +5,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
+import org.springframework.boot.web.error.ErrorAttributeOptions.Include;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
+import org.springframework.boot.autoconfigure.web.ErrorProperties.IncludeAttribute;
 import org.springframework.boot.autoconfigure.web.ErrorProperties.IncludeStacktrace;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,7 +43,6 @@ public class ThrowerErrorToExceptionHandler implements ErrorController {
         this.errorProperties = errorProperties;
     }
 
-    @Override
     public String getErrorPath() {
         return this.errorProperties.getPath();
     }
@@ -80,7 +82,9 @@ public class ThrowerErrorToExceptionHandler implements ErrorController {
 
     protected Map<String, Object> getErrorAttributes(HttpServletRequest request, boolean includeStackTrace) {
         WebRequest webRequest = new ServletWebRequest(request);
-        return this.errorAttributes.getErrorAttributes(webRequest, includeStackTrace);
+        ErrorAttributeOptions options = includeStackTrace ? ErrorAttributeOptions.of(Include.STACK_TRACE)
+                : ErrorAttributeOptions.defaults();
+        return this.errorAttributes.getErrorAttributes(webRequest, options);
     }
 
     /**
@@ -91,11 +95,11 @@ public class ThrowerErrorToExceptionHandler implements ErrorController {
      * @return if the stacktrace attribute should be included
      */
     protected boolean isIncludeStackTrace(HttpServletRequest request, MediaType produces) {
-        IncludeStacktrace include = errorProperties.getIncludeStacktrace();
-        if (include == IncludeStacktrace.ALWAYS) {
+        IncludeAttribute include = errorProperties.getIncludeStacktrace();
+        if (include == IncludeAttribute.ALWAYS) {
             return true;
         }
-        if (include == IncludeStacktrace.ON_TRACE_PARAM) {
+        if (include == IncludeAttribute.ON_PARAM) {
             return getTraceParameter(request);
         }
         return false;
