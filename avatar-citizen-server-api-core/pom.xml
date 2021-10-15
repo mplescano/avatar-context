@@ -16,6 +16,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.mplescano.poc</groupId>
             <artifactId>avatar-citizen-common</artifactId>
         </dependency>
@@ -99,16 +103,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zipkin</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.zipkin.reporter2</groupId>
-                    <artifactId>zipkin-sender-amqp-client</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.zipkin.reporter2</groupId>
-                    <artifactId>zipkin-sender-kafka11</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>

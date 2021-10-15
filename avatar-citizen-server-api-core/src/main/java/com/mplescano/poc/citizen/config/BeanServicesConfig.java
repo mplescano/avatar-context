@@ -30,9 +30,9 @@ public class BeanServicesConfig {
     	return new HighestPrecedenceCorsFilter(new PropCorsConfigurationSource("cors", new ResourcePropertySource(corsConfigResource), expirationTimeInSeconds));
     }
 
-    @Bean
+    /*@Bean
     public ErrorProperties errorProperties() {
     	return new ErrorProperties();
-    }
+    }*/
    
 }

@@ -45,7 +45,7 @@ public class CitizenResource extends AbstractResourceController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseMessage insertCitizen(@Validated @RequestBody Citizen input) {
         input = citizenService.save(input);
-        return new ResponseMessage(true, "Citizen created", ImmutableMap.of("id", input.getId()));
+        return new ResponseMessage("Citizen created", ImmutableMap.of("id", input.getId()));
     }
 
     @PutMapping("/citizens/{citizenId}")
@@ -63,13 +63,13 @@ public class CitizenResource extends AbstractResourceController {
         citizenDb.setPlanet(input.getPlanet());
         citizenService.save(citizenDb);
 
-        return new ResponseMessage(true, "Citizen successfuly modified");
+        return new ResponseMessage("Citizen successfuly modified");
     }
 
     @DeleteMapping("/citizens/{citizenIds}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseMessage deleteReminder(@PathVariable("citizenIds") int[] citizenIds) {
     	citizenService.delete(citizenIds[0]);
-        return new ResponseMessage(true, "Successfuly deleted the item of id " + citizenIds[0] + ".");    		
+        return new ResponseMessage("Successfuly deleted the item of id " + citizenIds[0] + ".");
     }
 }

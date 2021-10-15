@@ -8,35 +8,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ResponseMessage implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
 
-    private boolean success;
+    /**
+     * Does not make sense, because the success is defined in the status response.      *
+     * 200 is success
+     * 400 is bad input
+     * 500 is internal error 
+     */
+    // private boolean success;
 
     private String message;
 
     private Object data;
 
-    public ResponseMessage(boolean status, String message) {
-        this(status, message, null);
+    public ResponseMessage(String message) {
+        this(message, null);
     }
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public ResponseMessage(@JsonProperty("status") boolean status, 
-    		@JsonProperty("message") String message, @JsonProperty("data") Object data) {
-        this.success = status;
+    public ResponseMessage(@JsonProperty("message") String message, @JsonProperty("data") Object data) {
         this.message = message;
         if (data != null) {
             this.data = data;
         } else {
             this.data = new ArrayList<>();
         }
-    }
-
-    public boolean isSuccess() {
-        return success;
     }
 
     public String getMessage() {

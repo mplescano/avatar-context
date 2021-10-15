@@ -17,13 +17,13 @@ public class ResponseErrorMessage extends ResponseMessage {
 	private static final long serialVersionUID = 1L;
 
 	public ResponseErrorMessage(String code, ErrorType type, String message) {
-		super(false, message);
+		super(message);
 		this.code = code;
 		this.type = type;
 	}
 	
 	public ResponseErrorMessage(String code, ErrorType type, String message, Object data) {
-		super(false, message, data);
+		super(message, data);
 		this.code = code;
 		this.type = type;
 	}
