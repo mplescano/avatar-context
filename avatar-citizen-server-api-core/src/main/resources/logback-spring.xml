@@ -26,7 +26,7 @@
             <appender-ref ref="ASYNC" />
         </root>
         <logger name="logging.level.com.mplescano.poc.citizen.service.SwapiService" level="DEBUG"/>
-        <logger name="org.apache.http.wire" level="DEBUG"/>
+        <logger name="org.apache.http.wire" level="INFO"/>
     </springProfile>
 
     <springProfile name="local">
@@ -46,6 +46,6 @@
         <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
         <logger name="org.hibernate.SQL" level="DEBUG"/>
         <logger name="com.mplescano.poc" level="DEBUG"/>
-        <logger name="org.apache.http.wire" level="DEBUG"/>
+        <logger name="org.apache.http.wire" level="INFO"/>
     </springProfile>
 </configuration>

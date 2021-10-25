@@ -11,6 +11,7 @@ import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ErrorProperties.IncludeAttribute;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,11 +36,11 @@ public class ThrowerErrorToExceptionHandler implements ErrorController {
      * @param errorAttributes the error attributes
      * @param errorProperties configuration properties
      */
-    public ThrowerErrorToExceptionHandler(ErrorAttributes errorAttributes, ErrorProperties errorProperties) {
+    public ThrowerErrorToExceptionHandler(ErrorAttributes errorAttributes, ServerProperties serverProperties) {
         Assert.notNull(errorAttributes, "ErrorAttributes must not be null");
         this.errorAttributes = errorAttributes;
-        Assert.notNull(errorProperties, "ErrorProperties must not be null");
-        this.errorProperties = errorProperties;
+        Assert.notNull(serverProperties.getError(), "ErrorProperties must not be null");
+        this.errorProperties = serverProperties.getError();
     }
 
     public String getErrorPath() {
